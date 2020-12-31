@@ -12,44 +12,24 @@ import org.apache.hadoop.mapreduce.{Job, Mapper, Reducer}
 
 import scala.jdk.CollectionConverters._
 
-object Main {
-
-  class TokenizerMapper extends Mapper[Object, Text, Text, IntWritable] {
-
-    val one = new IntWritable(1)
-    val word = new Text()
-
-    override def map(key: Object,
-                     value: Text,
-                     context: Mapper[Object, Text, Text, IntWritable]#Context): Unit = {
-      val itr = new StringTokenizer(value.toString)
-      while (itr.hasMoreTokens) {
-        word.set(itr.nextToken())
-        context.write(word, one)
-      }
-    }
+object Main extends App {
+  if (args.length != 3 || !(args(2) == "users" || args(2) == "pages")) {
+    println("Usage: Main [input dir] [output dir] ['pages'/'users']")
+    System.exit(-1)
   }
 
-  class IntSumReader extends Reducer[Text, IntWritable, Text, IntWritable] {
-    override def reduce(key: Text,
-                        values: lang.Iterable[IntWritable],
-                        context: Reducer[Text, IntWritable, Text, IntWritable]#Context): Unit = {
-      val sum = values.asScala.foldLeft(0)(_ + _.get)
-      context.write(key, new IntWritable(sum))
-    }
+  val configuration = new Configuration
+  val job = Job.getInstance(configuration, "revision data")
+  job.setJarByClass(this.getClass)
+  args(2) match {
+    case "pages" => job.setMapperClass(classOf[PageRevisionMapper])
+    case "users" => job.setMapperClass(classOf[UserRevisionMapper])
   }
-
-  def main(args: Array[String]): Unit = {
-    val configuration = new Configuration
-    val job = Job.getInstance(configuration, "word count")
-    job.setJarByClass(this.getClass)
-    job.setMapperClass(classOf[TokenizerMapper])
-    job.setCombinerClass(classOf[IntSumReader])
-    job.setReducerClass(classOf[IntSumReader])
-    job.setOutputKeyClass(classOf[Text])
-    job.setOutputValueClass(classOf[IntWritable])
-    FileInputFormat.addInputPath(job, new Path(args(0)))
-    FileOutputFormat.setOutputPath(job, new Path(args(1)))
-    System.exit(if(job.waitForCompletion(true)) 0 else 1)
-  }
+  job.setCombinerClass(classOf[RevisionReducer])
+  job.setReducerClass(classOf[RevisionReducer])
+  job.setOutputKeyClass(classOf[Text])
+  job.setOutputValueClass(classOf[IntWritable])
+  FileInputFormat.addInputPath(job, new Path(args(0)))
+  FileOutputFormat.setOutputPath(job, new Path(args(1)))
+  System.exit(if(job.waitForCompletion(true)) 0 else 1)
 }
