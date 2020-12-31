@@ -1,0 +1,70 @@
+Event_global 	wiki_db 	string 	enwiki, dewiki, eswiktionary, etc.
+event_entity 	string 	revision, user or page
+event_type 	string 	create, move, delete, etc. Detailed explanation in the docs under #Event_types
+event_timestamp 	string 	When this event ocurred
+event_comment 	string 	Comment related to this event, sourced from log_comment, rev_comment, etc.
+Event user 	event_user_id 	bigint 	ID of the user that caused the event. Null if the user is anonymous or if from a revision where the user has been revision deleted.
+event_user_text_historical 	string 	Historical username (IP address for anonymous user) of the user that caused the event. Null for revisions where the user has been revision deleted.
+event_user_text 	string 	Current username of the user that caused the event. Null for anonymous users (the IP is stored in event_user_text_historical). Null for revisions where the user has been revision deleted.
+event_user_blocks_historical 	array<string> 	Historical blocks of the user that caused the event
+event_user_blocks 	array<string> 	Current blocks of the user that caused the event
+event_user_groups_historical 	array<string> 	Historical groups of the user that caused the event
+event_user_groups 	array<string> 	Current groups of the user that caused the event
+event_user_is_bot_by_historical 	array<string> 	Historical bot information of the user that caused the event, can contain values name or group
+event_user_is_bot_by 	array<string> 	Bot information of the user that caused the event, can contain values name or group
+event_user_is_created_by_self 	boolean 	Whether the event_user created their own account
+event_user_is_created_by_system 	boolean 	Whether the event_user account was created by mediawiki (eg. centralauth)
+event_user_is_created_by_peer 	boolean 	Whether the event_user account was created by another user
+event_user_is_anonymous 	boolean 	Whether the event_user is not registered. True for revisions where the user has been revision deleted, even if the user was actually registered.
+event_user_registration_timestamp 	string 	Registration timestamp of the user that caused the event (from user table)
+event_user_creation_timestamp 	string 	Creation timestamp of the user that caused the event (from logging table)
+event_user_first_edit_timestamp 	string 	Timestamp of the first edit of the user that caused the event
+event_user_revision_count 	bigint 	Number of revisions made by the event_user up to the historical time in this wiki_db (only available in revision-create events so far). For revision-create events, this includes the event itself.
+event_user_seconds_since_previous_revision 	bigint 	In revision events: seconds elapsed since the previous revision made by the current event_user_id (only available in revision-create events so far)
+page 	page_id 	bigint 	In revision/page events: id of the page
+page_title_historical 	string 	In revision/page events: historical title of the page
+page_title 	string 	In revision/page events: current title of the page
+page_namespace_historical 	int 	In revision/page events: historical namespace of the page.
+page_namespace_is_content_historical 	boolean 	In revision/page events: historical namespace of the page is categorized as content
+page_namespace 	int 	In revision/page events: current namespace of the page
+page_namespace_is_content 	boolean 	In revision/page events: current namespace of the page is categorized as content
+page_is_redirect 	boolean 	In revision/page events: whether the page is currently a redirect
+page_is_deleted 	boolean 	In revision/page events: Whether the page is rebuilt from a delete event
+page_creation_timestamp 	string 	In revision/page events: creation timestamp of the page
+page_first_edit_timestamp 	string 	In revision/page events: timestamp of the page's first revision. Can be before the page_creation in some restore/merge cases (see revision_is_from_before_page_creation).
+page_revision_count 	bigint 	In revision/page events: Cumulative revision count per page for the current page_id (only available in revision-create events so far)
+page_seconds_since_previous_revision 	bigint 	In revision/page events: seconds elapsed since the previous revision made on the current page_id (only available in revision-create events so far)
+user 	user_id 	bigint 	In user events: id of the user
+user_text_historical 	string 	In user events: historical username or IP address of the user
+user_text 	string 	In user events: current username or IP address of the user
+user_blocks_historical 	array<string> 	In user events: historical user blocks
+user_blocks 	array<string> 	In user events: current user blocks
+user_groups_historical 	array<string> 	In user events: historical user groups
+user_groups 	array<string> 	In user events: current user groups
+user_is_bot_by_historical 	array<string> 	In user events: Historical bot information of the user, can contain values name or group
+user_is_bot_by 	array<string> 	In user events: Bot information of the user, can contain values name or group
+user_is_created_by_self 	boolean 	In user events: whether the user created their own account
+user_is_created_by_system 	boolean 	In user events: whether the user account was created by mediawiki
+user_is_created_by_peer 	boolean 	In user events: whether the user account was created by another user
+user_is_anonymous 	boolean 	In user events: whether the user is not registered
+user_registration_timestamp 	string 	In user events: registration timestamp of the user.
+user_creation_timestamp 	string 	In user events: Creation timestamp of the user (from logging table)
+user_first_edit_timestamp 	string 	In user events: Timestamp of the first edit of the user
+revision 	revision_id 	bigint 	In revision events: id of the revision
+revision_parent_id 	bigint 	In revision events: id of the parent revision
+revision_minor_edit 	boolean 	In revision events: whether it is a minor edit or not
+revision_deleted_parts 	array<string> 	In revision events: Deleted parts of the revision, can contain values text, comment and user
+revision_deleted_parts_are_suppressed 	boolean 	In revision events: Whether the deleted parts are deleted to admin as well (visibleonly by stewarts)
+revision_text_bytes 	bigint 	In revision events: number of bytes of revision
+revision_text_bytes_diff 	bigint 	In revision events: change in bytes relative to parent revision (can be negative).
+revision_text_sha1 	string 	In revision events: sha1 hash of the revision
+revision_content_model 	string 	In revision events: content model of revision
+revision_content_format 	string 	In revision events: content format of revision
+revision_is_deleted_by_page_deletion 	boolean 	In revision events: whether this revision has been deleted (moved to archive table)
+revision_deleted_by_page_deletion_timestamp 	string 	In revision events: the timestamp when the revision was deleted
+revision_is_identity_reverted 	boolean 	In revision events: whether this revision was reverted by another future revision
+revision_first_identity_reverting_revision_id 	bigint 	In revision events: id of the revision that reverted this revision
+revision_seconds_to_identity_revert 	bigint 	In revision events: seconds elapsed between revision posting and its revert (if there was one)
+revision_is_identity_revert 	boolean 	In revision events: whether this revision reverts other revisions
+revision_is_from_before_page_creation 	boolean 	In revision events: True if the revision timestamp is before the page creation (can happen with restore events)
+revision_tags 	array<string> 	In revision events: Tags associated to the revision 
