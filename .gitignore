@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/vscode,apachehadoop,scala,metals,intellij
-# Edit at https://www.toptal.com/developers/gitignore?templates=vscode,apachehadoop,scala,metals,intellij
+# Created by https://www.toptal.com/developers/gitignore/api/vscode,apachehadoop,scala,metals,intellij,sbt
+# Edit at https://www.toptal.com/developers/gitignore?templates=vscode,apachehadoop,scala,metals,intellij,sbt
 
 ### ApacheHadoop ###
 *.iml
@@ -84,7 +84,7 @@ cmake-build-*/
 .idea/**/mongoSettings.xml
 
 # File-based project format
-*.iws
+#*.iws
 
 # IntelliJ
 out/
@@ -140,7 +140,19 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/12206-codestream
 .idea/codestream.xml
 
-# End of https://www.toptal.com/developers/gitignore/api/intellij
+### SBT ###
+# Simple Build Tool
+# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
 
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+.bsp
 
-# End of https://www.toptal.com/developers/gitignore/api/vscode,apachehadoop,scala,metals,intellij
+# End of https://www.toptal.com/developers/gitignore/api/vscode,apachehadoop,scala,metals,intellij,sbt
