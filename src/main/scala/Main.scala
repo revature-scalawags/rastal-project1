@@ -14,7 +14,7 @@ import scala.jdk.CollectionConverters._
 
 object Main extends App {
   processArgs(args)
-  
+
   val configuration = new Configuration
   val job = Job.getInstance(configuration, "revision data")
   job.setJarByClass(this.getClass)
