@@ -36,7 +36,10 @@ object Main extends App {
   System.exit(if(job.waitForCompletion(true)) 0 else 1)
 
   def processArgs(args: Array[String], test: Boolean = false): Unit = {
-    if (args.length != 3 || !(args(2) == "users" || args(2) == "pages")) {
+    if (args.length != 3 || 
+        !(args(2) == "users" || 
+          args(2) == "pages" || 
+          args(2) == "usersByPage")) {
       if (!test) {
         println("Usage: Main [input dir] [output dir] [job type]\n" +
                 "Job types: 'pages' 'users' 'usersByPage'")
