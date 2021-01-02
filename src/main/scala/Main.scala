@@ -28,8 +28,10 @@ object Main extends App {
     case "usersByPage" => 
       job.setCombinerClass(classOf[UserRevisionByPageReducer])
       job.setReducerClass(classOf[UserRevisionByPageReducer])
+      job.setMapOutputValueClass(classOf[Text])
       job.setOutputValueClass(classOf[MapWritable])
   }
+  job.setMapOutputKeyClass(classOf[Text])
   job.setOutputKeyClass(classOf[Text])
   FileInputFormat.addInputPath(job, new Path(args(0)))
   FileOutputFormat.setOutputPath(job, new Path(args(1)))
