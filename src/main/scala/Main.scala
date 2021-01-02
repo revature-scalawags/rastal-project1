@@ -22,11 +22,9 @@ object Main extends App {
   }
   args(2) match {
     case "pages" | "users" =>
-      job.setCombinerClass(classOf[RevisionReducer])
       job.setReducerClass(classOf[RevisionReducer])
       job.setOutputValueClass(classOf[IntWritable])
     case "usersByPage" => 
-      job.setCombinerClass(classOf[UserRevisionByPageReducer])
       job.setReducerClass(classOf[UserRevisionByPageReducer])
       job.setMapOutputValueClass(classOf[Text])
       job.setOutputValueClass(classOf[MapWritable])
