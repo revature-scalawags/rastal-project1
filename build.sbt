@@ -9,3 +9,4 @@ idePackagePrefix := Some("me.rastal.project1")
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.2" % Test
 libraryDependencies += "org.apache.hadoop" % "hadoop-mapreduce-client-core" % "3.2.1"
 libraryDependencies += "org.apache.hadoop" % "hadoop-common" % "3.2.1"
+libraryDependencies += "org.apache.hive" % "hive-jdbc" % "3.1.2"
