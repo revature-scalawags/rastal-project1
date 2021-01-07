@@ -12,7 +12,7 @@ class UserRevisionByPageReducer extends Reducer[Text, Text, Text, MapWritable] {
     val map = new MapWritable()
     val counts = users.asScala.groupMapReduce(identity)(_ => 1)(_ + _)
     val sorted = ListMap(counts.toSeq.sortWith(_._2 > _._2):_*)
-    for ((k,v) <- sorted) yield map.put(new Text(k), new IntWritable(v))
+    sorted.foreach(x => map.put(x._1, new IntWritable(x._2)))
     context.write(page, map)
   }
 }
