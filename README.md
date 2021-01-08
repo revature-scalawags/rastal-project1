@@ -6,6 +6,7 @@
   - took a little longer to figure out than I expected, but now that I know how it works, it's fairly easy
 - Command line interface to run queries (medium)
   - this was really straightforward for MapReduce jobs
+  - this was also easy for Hive... once I actually got Hive working
 - MapReduce job for counting times profonity was removed from articles (hard)
   - the data ended up just being page history metadata, and didn't include any content that was revised (no diffs)
 - MapReduce jobs for counting most revised pages and most active users (easy)
@@ -14,7 +15,8 @@
   - once I understood how to actually run this on HDFS (with `hadoop jar`), this was pretty easy
 - MapReduce job for finding most active users on each page (medium)
   - Once I got my head around how mapping and reducing worked and saw that MapWritable was a type built into Hadoop, this ended up being easier to implement than I expected
+  - *EDIT*: This actually output my data incorrectly, with each page being paired with a map containing only a single user and their counts instead of all the users who revised that page. I wasn't able to figure it out in time to fully implement this.
 - Hive queries for returning MapReduced data sorted in descending order by counts (medium)
-  - *to be determined*
+  - The queries themselves were easy, but Hive was very very very difficult to get set up with my pseudo-distributed cluster.
 - Multi-node Hadoop cluster using AWS (medium)
-  - ended up not having time to even attempt implementing this; MapReduce took more time to learn / implement than I expected
+  - ended up not having time to even attempt implementing this; both MapReduce and Hive took more time to learn / implement than I expected.
